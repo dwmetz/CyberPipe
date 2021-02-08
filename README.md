@@ -16,15 +16,15 @@ CSIRT-Collect.ps1 Operations:
     Maps to existing network drive -
     Subdir 1 : “Memory” – Winpmem and 7zip executables
     Subdir 2: ”KAPE” – directory (copied from local install)
-    • Creates a local directory on asset
-    • Copies the Memory exe files to local directory
-    • Captures memory with Winpmem
-    • When complete, ZIPs the memory image
-    • Renames the zip file based on hostname
-    • Documents the OS Build Info (no need to determine profile for Volatility)
-    • Compressed image is copied to network directory and deleted from host after transfer complete
-    • New temp Directory on asset for KAPE output
-    • KAPE !SANS_Triage collection is run using VHDX as output format [$hostname.vhdx]
-    • VHDX transfers to network
-    • Removes the local KAPE directory after completion
-    • Writes a “Process complete” text file to network to signal investigators that collection is ready for analysis
+    Creates a local directory on asset
+    Copies the Memory exe files to local directory
+    Captures memory with Winpmem
+    When complete, ZIPs the memory image
+    Renames the zip file based on hostname
+    Documents the OS Build Info (no need to determine profile for Volatility)
+    Compressed image is copied to network directory and deleted from host after transfer complete
+    New temp Directory on asset for KAPE output
+    KAPE !SANS_Triage collection is run using VHDX as output format [$hostname.vhdx]
+    VHDX transfers to network
+    Removes the local KAPE directory after completion
+    Writes a “Process complete” text file to network to signal investigators that collection is ready for analysis
