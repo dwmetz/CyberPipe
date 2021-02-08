@@ -15,8 +15,7 @@ Collections folder needs to include:
 CSIRT-Collect.ps1 Operations:
 
 Maps to existing network drive -
-Subdir 1 : “Memory” – Winpmem and 7zip executables
-
+Subdir 1: “Memory” – Winpmem and 7zip executables
 Subdir 2: ”KAPE” – directory (copied from local install)
 Creates a local directory on asset
 Copies the Memory exe files to local directory
