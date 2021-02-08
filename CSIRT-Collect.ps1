@@ -1,10 +1,11 @@
 <#
 CSIRT-Collections.ps1
+https://github.com/dwmetz/CSIRT-Collect
 Doug Metz dwmetz@gmail.com
 Function: This script will map a drive to the "Collections" share, capture a memory image and a KAPE collection on the computer, and transfer the output back to the network share.
 #>
 Write-Host -Fore White "--------------------------------------------------"
-Write-Host -Fore Cyan "       CSIRT IR Collection Script, v1.4" 
+Write-Host -Fore Cyan "       CSIRT IR Collection Script, v1.5" 
 Write-Host -Fore Cyan "       (c) 2021 dwmetz@gmail.com" 
 Write-Host -Fore White "--------------------------------------------------"
 Start-Sleep -Seconds 3
