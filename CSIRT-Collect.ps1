@@ -1,9 +1,8 @@
-##
-## CSIRT-Collections.ps1
-## Doug Metz douglas.metz@kcc.com
-##
-## Function: This script will map a drive to the KCFiles "IR" share, execute a memory collection and a KAPE collection on the computer and transfer the outputs back to the network share.
-##
+<#
+CSIRT-Collections.ps1
+Doug Metz dwmetz@gmail.com
+Function: This script will map a drive to the "Collections" share, execute a memory collection and a KAPE collection on the computer. and transfer the output back to the network share.
+#>
 Write-Host -Fore White "--------------------------------------------------"
 Write-Host -Fore Cyan "       CSIRT IR Collection Script, v1.4" 
 Write-Host -Fore Cyan "       (c) 2021 dwmetz@gmail.com" 
@@ -15,16 +14,14 @@ Set-ExecutionPolicy -Scope CurrentUser Unrestricted
 ## map the network drive and change to that directory
 Write-Host -Fore Green "Mapping network drive..."
 
-
 $Networkpath = "X:\" 
-
 
 If (Test-Path -Path $Networkpath) {
     Write-Host -Fore Green "Drive Exists already"
 }
 Else {
     #map network drive
-    (New-Object -ComObject WScript.Network).MapNetworkDrive("X:","\\Synology\Collections",$true,"synology\IRCollect","Ji2^%UiMo9") 
+    (New-Object -ComObject WScript.Network).MapNetworkDrive("X:","\\Synology\Collections") 
 
     #check mapping again
     If (Test-Path -Path $Networkpath) {
@@ -34,8 +31,6 @@ Else {
         Write-Host -For Red "Error mapping drive"
     }
 }
-#Remove-PSDrive -Name X
-#New-PSDrive -Name X -PSProvider FileSystem -Root "\\Synology\Collections"
 
 # create local memory directory
 Write-Host -Fore Green "Setting up local directory..."
@@ -54,15 +49,15 @@ Remove-Item memdump.raw
 Write-Host -Fore Green "Deleting raw image..."
 ## rename the zip file to the hostname of the computer
 Write-Host -Fore Green "Renaming file..."
-Get-ChildItem -Filter �*memdump*� -Recurse | Rename-Item -NewName {$_.name -replace �memdump�, $env:computername }
+Get-ChildItem -Filter "*memdump*" -Recurse | Rename-Item -NewName {$_.name -replace 'memdump', $env:computername }
 
 ## document the OS build information
 Write-Host -Fore Green "Determining OS build info..."
 [System.Environment]::OSVersion.Version > C:\Temp\IR\windowsbuild.txt
 Write-Host -Fore Green "Renaming file..."
-Get-ChildItem -Filter �*windowsbuild*� -Recurse | Rename-Item -NewName {$_.name -replace �windowsbuild�, $env:computername }
+Get-ChildItem -Filter "*windowsbuild*" -Recurse | Rename-Item -NewName {$_.name -replace 'windowsbuild', $env:computername }
 
-## create output directory on "IR" share
+## create output directory on "Collections" share
 mkdir X:\$env:COMPUTERNAME
 
 Write-Host -Fore Green "Copying memory image to network..."
@@ -96,3 +91,5 @@ Remove-Item -LiteralPath "C:\temp\KAPE" -Force -Recurse
 Set-Content -Path X:\$env:COMPUTERNAME\transfer-complete.txt -Value "Transfer complete: $((Get-Date).ToString())"
 Remove-PSDrive -Name X
 Write-Host -Fore Cyan "** Process Complete **"
+
+## End
