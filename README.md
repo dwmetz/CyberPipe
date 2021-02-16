@@ -29,3 +29,20 @@ Collections folder needs to include:
 - VHDX transfers to network
 - Removes the local KAPE directory after completion
 - Writes a “Process complete” text file to network to signal investigators that collection is ready for analysis.
+
+##CSIRT-Collect_USB
+
+Essentially the same functionality as CSIRT-Collect.ps1 with the exception that it is intented to be run from a USB device. The extra compression operations on the memory image and KAPE .vhdx have been removed.
+There is a slight change to the folder structure for the USB version.
+On the root of the USB:
+- CSIRT-Collect_USB.ps1
+- folder (empty to start) titled 'Collections'
+- folders for KAPE and Memory - same as above
+
+Execution:
+-Open PowerShell as Adminstrator
+-Navigate to the USB device
+-Execute ./CSIRT-Collect_USB.ps1
+
+
+
