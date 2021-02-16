@@ -12,7 +12,7 @@ Collections folder needs to include:
 - subdirectory MEMORY; 7za.exe command line version of 7zip and winpmem.exe
 
 
-## CSIRT-Collect.ps1 Operations:
+## CSIRT-Collect
 
 - Maps to existing network drive -
 - - Subdir 1: “Memory” – Winpmem and 7zip executables
@@ -30,7 +30,7 @@ Collections folder needs to include:
 - Removes the local KAPE directory after completion
 - Writes a “Process complete” text file to network to signal investigators that collection is ready for analysis.
 
-##CSIRT-Collect_USB
+## CSIRT-Collect_USB
 
 Essentially the same functionality as CSIRT-Collect.ps1 with the exception that it is intented to be run from a USB device. The extra compression operations on the memory image and KAPE .vhdx have been removed.
 There is a slight change to the folder structure for the USB version.
