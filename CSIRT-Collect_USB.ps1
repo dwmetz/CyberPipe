@@ -37,7 +37,7 @@ Set-Location ..
 ## execute the KAPE "OS" collection
 Write-Host -Fore Green "Collecting OS artifacts..."
 Start-Sleep -Seconds 3
-Kape\kape.exe --tsource C: --tdest Collections\$env:COMPUTERNAME --target !SANS_Triage --vhdx $env:COMPUTERNAME --zv false
+Kape\kape.exe --tsource C: --tdest Collections\$env:COMPUTERNAME --target KapeTriage --vhdx $env:COMPUTERNAME --zv false
 ## indicates completion
 Set-Content -Path \Collections\$env:COMPUTERNAME\collection-complete.txt -Value "Collection complete: $((Get-Date).ToString())"
 Write-Host -Fore Cyan "** Process Complete **"
