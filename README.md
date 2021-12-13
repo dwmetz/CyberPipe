@@ -9,7 +9,7 @@ In the demonstration code, a network location of \\Synology\Collections can be s
 
 Collections folder needs to include:
 - subdirectory KAPE; copy the directory from existing install
-- subdirectory MEMORY; 7za.exe command line version of 7zip and winpmem.exe
+- subdirectory MEMORY; 7za.exe command line version of 7zip and Magnet Ram Capture.
 
 
 ## CSIRT-Collect
@@ -19,7 +19,7 @@ Collections folder needs to include:
 - - Subdir 2: ”KAPE” – directory (copied from local install)
 - Creates a local directory on asset
 - Copies the Memory exe files to local directory
-- Captures memory with Winpmem
+- Captures memory with Magnet Ram Capture
 - When complete, ZIPs the memory image
 - Renames the zip file based on hostname
 - Documents the OS Build Info (no need to determine profile for Volatility)
