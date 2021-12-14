@@ -11,7 +11,7 @@ Collections folder needs to include:
 - subdirectory KAPE; copy the directory from existing install
 - subdirectory MEMORY; 7za.exe command line version of 7zip and Magnet Ram Capture.
 
-### For a walkthough of the script https://bakerstreetforensics.com/2021/12/13/adding-ram-collections-to-kape-triage/
+For a walkthough of the script https://bakerstreetforensics.com/2021/12/13/adding-ram-collections-to-kape-triage/
 
 ## CSIRT-Collect
 
