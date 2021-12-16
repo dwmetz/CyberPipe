@@ -14,10 +14,11 @@ Network share location with "Collections" folder. Within 'Collections', 2 subdir
 - KAPE (default directory as installed)
 
 #>
-Write-Host -Fore White "--------------------------------------------------"
-Write-Host -Fore Cyan "       CSIRT IR Collection Script, v3.0" 
-Write-Host -Fore Cyan "       (c) 2021 @dwmetz" 
-Write-Host -Fore White "--------------------------------------------------"
+Write-Host -Fore Gray "------------------------------------------------------"
+Write-Host -Fore Cyan "       CSIRT IR Collection Script v3.0" 
+Write-Host -Fore DarkCyan "       https://github.com/dwmetz/CSIRT-Collect"
+Write-Host -Fore Cyan "       @dwmetz | bakerstreetforensics.com"
+Write-Host -Fore Gray "------------------------------------------------------"
 Start-Sleep -Seconds 3
 ## map the network drive and change to that directory
 Write-Host -Fore Cyan "Mapping network drive..."

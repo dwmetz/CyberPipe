@@ -1,8 +1,10 @@
-# External Links
+## External Links
 
 7zip download: (scroll down of CMD/CTRL F) to Command Line Version; https://www.7-zip.org/download.html 
 
 Magnet Ram Capture: https://www.magnetforensics.com/free-tools
+
+Magnet Encrypted Disk Detector: https://www.magnetforensics.com/free-tools
 
 KAPE: https://www.kroll.com/en/services/cyber-risk/incident-response-litigation-support/kroll-artifact-parser-extractor-kape
 
