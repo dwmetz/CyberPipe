@@ -41,6 +41,7 @@ This script will:
 all directly to the USB device.
 
 Prerequisites:
+
 On the root of the USB:
 - CSIRT-Collect_USB.ps1
 - folder (empty to start) titled 'Collections'
