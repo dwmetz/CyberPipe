@@ -42,12 +42,12 @@ all directly to the USB device.
 
 Prerequisites:
 On the root of the USB:
--CSIRT-Collect_USB.ps1
--folder (empty to start) titled 'Collections'
--KAPE folder from default install. Ensure you have EDD.exe in \modules\bin\EDD
--MRC.exe 
+- CSIRT-Collect_USB.ps1
+- folder (empty to start) titled 'Collections'
+- KAPE folder from default install. Ensure you have EDD.exe in \modules\bin\EDD
+- MRC.exe 
 
 Execution:
--Open PowerShell as Adminstrator
--Navigate to the USB device
--Execute ./CSIRT-Collect_USB.ps1
+- Open PowerShell as Adminstrator
+- Navigate to the USB device
+- Execute ./CSIRT-Collect_USB.ps1
