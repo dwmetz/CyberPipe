@@ -33,17 +33,21 @@ For a walkthough of the script https://bakerstreetforensics.com/2021/12/13/addin
 
 ## CSIRT-Collect_USB
 
-Essentially the same functionality as CSIRT-Collect.ps1 with the exception that it is intented to be run from a USB device. The extra compression operations on the memory image and KAPE .vhdx have been removed.
-There is a slight change to the folder structure for the USB version.
+This script will:
+- capture a memory image with Magnet Ram Capture, 
+- capture a triage image with KAPE,
+- check for encrypted disks,
+- recover the active BitLocker Recovery key,
+all directly to the USB device.
+
+Prerequisites:
 On the root of the USB:
-- CSIRT-Collect_USB.ps1
-- folder (empty to start) titled 'Collections'
-- folders for KAPE and Memory - same as above
+-CSIRT-Collect_USB.ps1
+-folder (empty to start) titled 'Collections'
+-KAPE folder from default install. Ensure you have EDD.exe in \modules\bin\EDD
+-MRC.exe 
 
 Execution:
 -Open PowerShell as Adminstrator
 -Navigate to the USB device
 -Execute ./CSIRT-Collect_USB.ps1
-
-
-
