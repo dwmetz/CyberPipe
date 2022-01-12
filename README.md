@@ -52,3 +52,5 @@ Execution:
 - Open PowerShell as Adminstrator
 - Navigate to the USB device
 - Execute ./CSIRT-Collect_USB.ps1
+
+For a walkthrough of the USB version https://bakerstreetforensics.com/2021/12/17/csirt-collect-usb/
