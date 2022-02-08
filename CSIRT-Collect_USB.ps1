@@ -34,7 +34,7 @@ Set-Location Collections
 mkdir $env:computername -Force
 Set-Location ..
 ## capture memory image
-.\MRC.exe /accepteula /go /silent
+.\Memory\MRC.exe /accepteula /go /silent
 Start-Sleep -Seconds 5
 Write-Host -Fore Cyan "Initiating Magnet Ram Capture."
 Write-Host -Fore Cyan "Capturing memory..."
@@ -45,19 +45,23 @@ Write-Host -Fore Cyan "Determining OS build info..."
 [System.Environment]::OSVersion.Version > windows_build.txt
 Write-Host -Fore Cyan "Cleaning up"
 Get-ChildItem -Filter '*windows_build*' -Recurse | Rename-Item -NewName {$_.name -replace 'windows', $env:computername }
+Move-Item -Path .\*.txt -Destination .\Collections\$env:COMPUTERNAME\
+Set-Location Memory
 Get-ChildItem -Filter 'MagnetRAMCapture*' -Recurse | Rename-Item -NewName {$_.name -replace 'MagnetRAMCapture', $env:computername }
-Move-Item -Path .\*.txt -Destination \Collections\$env:COMPUTERNAME\
-Move-Item -Path .\*.raw -Destination \Collections\$env:COMPUTERNAME\
+Get-ChildItem -Filter '*.raw' -Recurse | Rename-Item -NewName {$_.name -replace ' - ', '_' }
+Get-ChildItem -Filter '*.raw' -Recurse | Rename-Item -NewName {$_.name -replace ' ', '_' }
+Move-Item -Path .\*.raw -Destination ..\Collections\$env:COMPUTERNAME\
 ## execute the KAPE "OS" collection
+Set-Location ..
 Write-Host -Fore Cyan "Collecting OS artifacts..."
 Start-Sleep -Seconds 3
 Kape\kape.exe --tsource C: --tdest Collections\$env:COMPUTERNAME --target KapeTriage --vhdx $env:COMPUTERNAME --zv false --module MagnetForensics_EDD --mdest Collections\$env:computername\Decrypt
 ## Encryption Detection & Recovery
-get-content \Collections\$env:COMPUTERNAME\Decrypt\LiveResponse\EDD.txt
+get-content .\Collections\$env:COMPUTERNAME\Decrypt\LiveResponse\EDD.txt
 Write-Host -fore cyan "Retrieving BitLocker Keys"
 (Get-BitLockerVolume -MountPoint C).KeyProtector > bitlocker_recovery.txt
 Get-ChildItem -Filter 'bitlocker*' -Recurse | Rename-Item -NewName {$_.name -replace 'bitlocker', $env:computername }
-Move-Item -Path .\*.txt -Destination \Collections\$env:COMPUTERNAME\Decrypt
+Move-Item -Path .\*.txt -Destination .\Collections\$env:COMPUTERNAME\Decrypt\LiveResponse
 ## indicates completion
-Set-Content -Path \Collections\$env:COMPUTERNAME\collection-complete.txt -Value "Collection complete: $((Get-Date).ToString())"
+Set-Content -Path .\Collections\$env:COMPUTERNAME\collection-complete.txt -Value "Collection complete: $((Get-Date).ToString())"
 Write-Host -Fore Cyan "** Process Complete **"
