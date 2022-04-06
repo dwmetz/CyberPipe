@@ -1,5 +1,5 @@
-﻿<#
-CSIRT-Collect_USB.ps1
+<#
+CSIRT-Collect_USB.ps1 v3.1
 https://github.com/dwmetz/CSIRT-Collect
 Author: @dwmetz
 
@@ -8,23 +8,27 @@ Function: This script will:
 - capture a triage image with KAPE,
 - check for encrypted disks,
 - recover the active BitLocker Recovery key,
-all directly to the USB device.
+save all artifacts directly to the USB device.
 
 Prerequisites:
 On the root of the USB:
 -CSIRT-Collect_USB.ps1
 -folder (empty to start) titled 'Collections'
 -KAPE folder from default install. Ensure you have EDD.exe in \modules\bin\EDD
--MRC.exe 
+  and verify that the EDD version matches the MagnetForensics_EDD.mkape
+-MEMORY folder with MRC.exe (Magnet Ram Capture) and 7za.exe (7zip)
 
 Execution:
 -Open PowerShell as Adminstrator
 -Navigate to the USB device
 -Execute ./CSIRT-Collect_USB.ps1
 
+v3.1 - "Summit Release"
+unified code between network and USB versions
+contributors dwmetz, stark4n6
 #>
 Write-Host -Fore Gray "------------------------------------------------------"
-Write-Host -Fore Cyan "       CSIRT IR Collection Script - USB, v2.0" 
+Write-Host -Fore Cyan "       CSIRT IR Collection Script - USB, v3.1" 
 Write-Host -Fore DarkCyan "       https://github.com/dwmetz/CSIRT-Collect"
 Write-Host -Fore Cyan "       @dwmetz | bakerstreetforensics.com"
 Write-Host -Fore Gray "------------------------------------------------------"
