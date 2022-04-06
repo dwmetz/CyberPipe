@@ -1,8 +1,12 @@
+<div align="center">
+ <img style="padding:0;vertical-align:bottom;" height="158" width="311" src="BSF.png"/>
  <p>
   <h1>
    CSIRT-Collect
   </h1>
  </p>
+
+</div>
 
 ---
 A PowerShell script to collect memory and (triage) disk forensics for incident response investigations.
