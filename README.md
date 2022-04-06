@@ -14,7 +14,7 @@ The default script leverages a network share, from which it will access and copy
 
 Permission requirements for said directory will be dependent on the nuances of the environment and what credentials are used for the script execution (interactive vs. automation)
 
-In the demonstration code, a network location of \\Synology\Collections can be seen. This should be changed to reflect the specifics of your environment.
+In the demonstration code, a network location of \\\Synology\Collections can be seen. This should be changed to reflect the specifics of your environment.
 
 Collections folder needs to include:
 - subdirectory KAPE; copy the directory from existing install
