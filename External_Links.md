@@ -1,6 +1,6 @@
 ## External Links
 
-7zip download: (scroll down of CMD/CTRL F) to Command Line Version; https://www.7-zip.org/download.html 
+7zip download: (scroll down or CMD/CTRL F) to Command Line Version; https://www.7-zip.org/download.html 
 
 Magnet Ram Capture: https://www.magnetforensics.com/resources/magnet-ram-capture/
 
