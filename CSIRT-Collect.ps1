@@ -1,21 +1,24 @@
 <#
-CSIRT-Collect.ps1 v3.0
-https://github.com/dwmetz
+CSIRT-Collect.ps1 v3.1
+https://github.com/dwmetz/CSIRT-Collect
 Author: @dwmetz
 Function: This script will 
 - map a drive to the "Collections" share, 
 - capture a memory image with Magnet Ram Capture,
 - capture a triage collection with KAPE, 
-- transfer the output back to the network share.
+- transfer the artifacts back to the network share.
 
 Prerequisites:
 Network share location with "Collections" folder. Within 'Collections', 2 subdirectories:
 - Memory, containing Magnet Ram Capture (MRC.exe) and CLI version of 7zip (7za.exe)
 - KAPE (default directory as installed)
 
+v3.1 - "Summit Release"
+unified code between network and USB versions
+contributors dwmetz
 #>
 Write-Host -Fore Gray "------------------------------------------------------"
-Write-Host -Fore Cyan "       CSIRT IR Collection Script v3.0" 
+Write-Host -Fore Cyan "       CSIRT IR Collection Script - v3.1" 
 Write-Host -Fore DarkCyan "       https://github.com/dwmetz/CSIRT-Collect"
 Write-Host -Fore Cyan "       @dwmetz | bakerstreetforensics.com"
 Write-Host -Fore Gray "------------------------------------------------------"
