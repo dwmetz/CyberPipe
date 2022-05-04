@@ -35,7 +35,7 @@ For a walkthough of the script https://bakerstreetforensics.com/2021/12/13/addin
 - Documents the OS Build Info (no need to determine profile for Volatility)
 - Compressed image is copied to network directory and deleted from host after transfer complete
 - New temp Directory on asset for KAPE output
-- KAPE !SANS_Triage collection is run using VHDX as output format [$hostname.vhdx]
+- KAPE KapeTriage collection is run using VHDX as output format [$hostname.vhdx]
 - VHDX transfers to network
 - Removes the local KAPE directory after completion
 - Writes a “Process complete” text file to network to signal investigators that collection is ready for analysis.
