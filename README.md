@@ -11,7 +11,7 @@
 A set of PowerShell scripts to collect memory and (triage) disk forensics for incident response investigations.
 
 
-:fire: Watch this space. Major update coming early next week. :fire:
+:fire: Watch this space. Major update coming early next week.(30-Jan-2023) :fire:
 
 The default script leverages a network share, from which it will access and copy the required executables and subsequently upload the acquired evidence to the same share post-collection.
 
