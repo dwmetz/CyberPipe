@@ -57,7 +57,7 @@
 >>
 >Permission requirements for said directory will be dependent on the nuances of the environment and what credentials are used for the script execution (interactive vs. automation).
 >
-For a walkthrough of the code visit [BakerStreetForensics](bakerstreetforensics.com/2023/01/16/kape-batch-mode-arm-memory-updates-to-csirt-collect-and-all-the-things-i-learned-along-the-way/).
+For a walkthrough of the code visit [BakerStreetForensics](https://bakerstreetforensics.com/2023/01/16/kape-batch-mode-arm-memory-updates-to-csirt-collect-and-all-the-things-i-learned-along-the-way/).
 
 Note: this script was previously titled CSIRT-Collect. Project name and repo updated with version 4.0.
 
