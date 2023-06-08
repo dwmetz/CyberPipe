@@ -75,7 +75,7 @@ Write-host -Fore Cyan "
 "                
 Write-Host -Fore Cyan "            CyberPipe IR Collection Script v4.01" 
 Write-Host -Fore Gray "          https://github.com/dwmetz/CyberPipe"
-Write-Host -Fore Gray "          @dwmetz | $([char]0x00A9)2023 bakerstreetforensics.com"
+Write-Host -Fore Gray "        @dwmetz | $([char]0x00A9)2023 bakerstreetforensics.com"
 Write-Host ""
 Write-Host ""
 $stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
