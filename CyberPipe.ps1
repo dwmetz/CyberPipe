@@ -26,6 +26,8 @@ Execution:
 
 Release Notes:
 
+v4.01 - Memory modules and EDD separated to enable easy commenting-out of memory capture for triage capture only
+
 v4.0 - "One Script to Rule them All"
 - Admin permissions check before execution
 - Memory acquisition will use Magnet DumpIt for Windows (previously used Magnet RAM Capture).
@@ -71,22 +73,22 @@ Write-host -Fore Cyan "
        .';:clooddddolc:,..                                  
            ''''''''''                                                                                                                 
 "                
-Write-Host -Fore Cyan "            CyberPipe IR Collection Script" 
+Write-Host -Fore Cyan "            CyberPipe IR Collection Script v4.01" 
 Write-Host -Fore Gray "          https://github.com/dwmetz/CyberPipe"
-Write-Host -Fore Gray "          @dwmetz | bakerstreetforensics.com"
+Write-Host -Fore Gray "          @dwmetz | $([char]0x00A9)2023 bakerstreetforensics.com"
 Write-Host ""
 Write-Host ""
 $stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
 ## Network Collection - uncomment the section below for Network use
-<#
+$server = "\\hydepark\automate\watchfolders\cyberpipe" # Server configuration
 Write-Host -Fore Gray "Mapping network drive..."
-$Networkpath = "X:\" 
+$Networkpath = "Z:\" 
 If (Test-Path -Path $Networkpath) {
     Write-Host -Fore Gray "Drive Exists already."
 }
 Else {
     # map network drive
-    (New-Object -ComObject WScript.Network).MapNetworkDrive("X:","\\Server\Triage")
+    (New-Object -ComObject WScript.Network).MapNetworkDrive("Z:","$server")
     # check mapping again
     If (Test-Path -Path $Networkpath) {
         Write-Host -Fore Gray "Drive has been mapped."
@@ -95,7 +97,7 @@ Else {
         Write-Host -Fore Red "Error mapping drive."
     }
 }
-Set-Location X:
+Set-Location Z:
 #>
 ## Below is for USB and Network:
 $tstamp = (Get-Date -Format "_yyyyMMddHHmm")
@@ -143,14 +145,17 @@ Write-Host -Fore Gray "Determining OS build info..."
 Write-Host -Fore Gray "Preparing _kape.cli..."
 $dest = "$CollectionHostpath"
 Set-Location $wd\KAPE
+# MEMORY COLLECTION 
 $arm = (Get-WmiObject -Class Win32_ComputerSystem).SystemType -match '(ARM)'
 if ($arm -eq "True") {
     Write-Host "ARM detected"
-    Set-Content -Path _kape.cli -Value "--msource C:\ --mdest $dest --module DumpIt_Memory_ARM,MagnetForensics_EDD --ul" }
+    Set-Content -Path _kape.cli -Value "--msource C:\ --mdest $dest --module DumpIt_Memory_ARM --ul" }
 else {
-    Set-Content -Path _kape.cli -Value "--msource C:\ --mdest $dest --module DumpIt_Memory,MagnetForensics_EDD --ul" }
+    Set-Content -Path _kape.cli -Value "--msource C:\ --mdest $dest --module DumpIt_Memory --ul" }
+#>
+Add-Content -Path _kape.cli -Value "--msource C:\ --mdest $dest --module MagnetForensics_EDD --ul" 
 Add-Content -Path _kape.cli -Value "--tsource C:\ --tdest $dest --target KapeTriage --vhdx $env:computername --zv false"
-Write-host -Fore Gray "Note: DumpIt & KAPE triage collection processes will launch in separate windows."
+Write-host -Fore Gray "Note: DumpIt, EDD & KAPE triage collection processes will launch in separate windows."
 Write-host -Fore Cyan "Triage aquisition will initate after memory collection completes."
 $null = .\kape.exe 
 Set-Location $MemoryCollectionpath
