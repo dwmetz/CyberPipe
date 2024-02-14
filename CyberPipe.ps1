@@ -167,7 +167,7 @@ Architecture:       $arch
 Selected Profile:   $profileName
 Output Directory:   $outputpath
 "
-.$wd\Tools\MagnetRESPONSE.exe /accepteula /unattended /caseref:CyberPipe /output:"$outputpath" $arguments 
+.$wd\Tools\MagnetRESPONSE.exe /accepteula /unattended /silent /caseref:CyberPipe /output:"$outputpath" $arguments 
 Write-Host -Fore Cyan "
 Collecting Artifacts...
 "
