@@ -36,7 +36,7 @@
 </h5>
 
 >- [MAGNET Response](https://www.magnetforensics.com/resources/magnet-response/)
->- [Encrypted Disk Detector](https://www.magnetforensics.com/resources/encrypted-disk-detector/) 
+>- [MAGNET Encrypted Disk Detector](https://www.magnetforensics.com/resources/encrypted-disk-detector/) 
 
 
 <h5>
