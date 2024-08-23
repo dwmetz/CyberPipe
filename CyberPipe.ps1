@@ -90,8 +90,8 @@ Set-Location $Networkpath
 
 ## Below is for USB and Network:
 $tstamp = (Get-Date -Format "yyyyMMddHHmm")
-$outputpath = "$wd\Collections\$env:COMPUTERNAME-$tstamp"
 $wd = Get-Location
+$outputpath = "$wd\Collections\$env:COMPUTERNAME-$tstamp"
 If (Test-Path -Path $wd\Tools) {
 }
 Else {
