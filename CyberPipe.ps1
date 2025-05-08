@@ -1,30 +1,44 @@
 <#
-CyberPipe.ps1
-https://github.com/dwmetz/CyberPipe
-previously named "CSIRT-Collect"
-Author: @dwmetz
+.NOTES
+CyberPipe5.ps1  
+https://github.com/dwmetz/CyberPipe  
+Formerly known as "CSIRT-Collect"  
+Author: @dwmetz  
 
-This script will:
-- capture a memory image with DumpIt for Windows, (x32, x64, ARM64), or Magnet RAM capture on legacy systems
-- capture a triage image with MAGNET Response,
-- check for encrypted disks,
-- recover the active BitLocker Recovery key,
-- save all artifacts, output and audit logs to USB or source network drive.
+.FUNCTIONALITY
+This script performs the following actions:  
+- Captures a memory image using DumpIt (Windows x86/x64/ARM64) or Magnet RAM Capture on legacy systems  
+- Captures a triage snapshot using MAGNET Response  
+- Checks for encrypted volumes  
+- Recovers the active BitLocker recovery key (if available)  
+- Saves all artifacts, logs, and outputs to USB or designated network path  
 
-Release Notes: 
+.SYNOPSIS
+CyberPipe v5.1 - RESPONSE Edition  
 
-v5.0 RESPONSE Edition
+**Prerequisites (must be present in the \Tools directory):**  
+- [MAGNET Response](https://magnetforensics.com) — `MagnetRESPONSE.exe`
+- [Encrypted Disk Detector](https://www.magnetforensics.com/resources/encrypted-disk-detector/) — `EDDv310.exe`
+- `CyberPipe5.ps1` should be located adjacent to the `\Tools` directory (on USB or network share)  
 
-Prerequisites: (in \Tools directory)
-- [MAGNET Response](https://magnetforensics.com) (MagnetRESPONSE.exe)
-- [Encrypted Disk Detector](https://www.magnetforensics.com/resources/encrypted-disk-detector/) (EDDv310.exe)
-- CyberPipe5.ps1 next to your TOOLS directory (whether on network or USB) 
-Operation:
-- Open PowerShell as Adminstrator
-- Execute ./CyberPipe.ps1
+**Usage:**  
+- Launch PowerShell as Administrator  
+- Run `.\CyberPipe.ps1`
 
+.EXAMPLE
+.\CyberPipe.ps1  
+# Runs the default full triage profile with memory, pagefile, volatile data, and system files
+
+.\CyberPipe.ps1 -CollectionProfile RAMOnly  
+# Captures only RAM and exits
+
+.\CyberPipe.ps1 -CollectionProfile Volatile  
+# Captures only volatile data (network, registry hives, etc.)
 #>
-param ([switch]$Elevated)
+param (
+    [switch]$Elevated,
+    [string]$CollectionProfile = $env:CYBERPIPE_PROFILE
+)
 function Test-Admin {
     $currentUser = New-Object Security.Principal.WindowsPrincipal $([Security.Principal.WindowsIdentity]::GetCurrent())
     $currentUser.IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
@@ -43,31 +57,29 @@ Clear-Host
 Write-Host ""
 Write-Host ""
 Write-Host ""
-Write-host  "
-    .',;::cccccc:;.                         ...'''''''..'.  
-   .;ccclllloooddxc.                   .';clooddoolcc::;:;. 
-   .:ccclllloooddxo.               .,coxxxxxdl:,'..         
-   'ccccclllooodddd'            .,,'lxkxxxo:'.              
-   'ccccclllooodddd'        .,:lxOkl,;oxo,.                 
-   ':cccclllooodddo.      .:dkOOOOkkd;''.                   
-   .:cccclllooooddo.  ..;lxkOOOOOkkkd;                      
-   .;ccccllloooodddc:coxkkkkOOOOOOx:.                       
-    'cccclllooooddddxxxxkkkkOOOOx:.                         
-     ,ccclllooooddddxxxxxkkkxlc,.                           
-      ':llllooooddddxxxxxoc;.                               
-       .';:clooddddolc:,..                                  
-           ''''''''''                                                                                                                 
-"                
-Write-Host  "CyberPipe IR Collection Script v5.0" 
-Write-Host  "https://github.com/dwmetz/CyberPipe"
-Write-Host  "@dwmetz | $([char]0x00A9)2024 bakerstreetforensics.com"
+Write-Host "   .',;::cccccc:;.                         ...'''''''..'."
+Write-Host "   .;ccclllloooddxc.                   .';clooddoolcc::;:;."
+Write-Host "   .:ccclllloooddxo.               .,coxxxxxdl:,'.."
+Write-Host "   'ccccclllooodddd'            .,,'lxkxxxo:'."
+Write-Host "   'ccccclllooodddd'        .,:lxOkl,;oxo,."
+Write-Host "   ':cccclllooodddo.      .:dkOOOOkkd;''."
+Write-Host "   .:cccclllooooddo.  ..;lxkOOOOOkkkd;"
+Write-Host "   .;ccccllloooodddc:coxkkkkOOOOOOx:."
+Write-Host "    'cccclllooooddddxxxxkkkkOOOOx:."
+Write-Host "     ,ccclllooooddddxxxxxkkkxlc,."
+Write-Host "      ':llllooooddddxxxxxoc;."
+Write-Host "       .';:clooddddolc:,.."
+Write-Host "           ''''''''''"
 Write-Host ""
+Write-Host "CyberPipe IR Collection Script v5.1"
+Write-Host "https://github.com/dwmetz/CyberPipe"
+Write-Host "$([char]0x00A9)2025 @dwmetz | bakerstreetforensics.com"
 Write-Host ""
 $stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
 [console]::ForegroundColor="DarkCyan"
 ## Network Collection - uncomment the section below for Network use
 <#
-$server = "\\server\share" # Server configuration
+$server = "\\hydepark\triage" # Server configuration
 Write-Host  "Mapping network drive..."
 $Networkpath = "Z:\" 
 If (Test-Path -Path $Networkpath) {
@@ -89,8 +101,8 @@ Set-Location $Networkpath
 #>
 
 ## Below is for USB and Network:
-$tstamp = (Get-Date -Format "yyyyMMddHHmm")
 $wd = Get-Location
+$tstamp = (Get-Date -Format "yyyyMMddHHmm")
 $outputpath = "$wd\Collections\$env:COMPUTERNAME-$tstamp"
 If (Test-Path -Path $wd\Tools) {
 }
@@ -128,23 +140,29 @@ Else {
     }
 }
 
-### VARIABLE SETUP
-
-$profileName = "Volatile (testing)"
-$arguments = "/capturevolatile" 
-#>
-<#
-$profileName = "MAGNET Triage"
-$arguments = "/captureram /capturepagefile /capturevolatile /capturesystemfiles" 
-#>
-<#
-$profileName = "RAM Dump"
-$arguments = "/captureram"
-#>
-<#
-$profileName = "RAM & Pagefile"
-$arguments = "/captureram /capturepagefile"
-#>
+### Collection Profiles
+switch ($CollectionProfile) {
+    "Volatile" {
+        $profileName = "Volatile"
+        $arguments = "/capturevolatile"
+    }
+    "RAMSystem" {
+        $profileName = "RAM & Critical System Files"
+        $arguments = "/captureram /capturesystemfiles"
+    }
+    "RAMPage" {
+        $profileName = "RAM & Pagefile"
+        $arguments = "/captureram /capturepagefile"
+    }
+    "RAMOnly" {
+        $profileName = "RAM Dump"
+        $arguments = "/captureram"
+    }
+    default {
+        $profileName = "MAGNET Triage"
+        $arguments = "/captureram /capturepagefile /capturevolatile /capturesystemfiles"
+    }
+}
 
 Write-Host ""
 $tstamp = (Get-Date -Format "yyyyMMddHHmm")
@@ -209,3 +227,22 @@ $Seconds = $StopWatch.Elapsed.Seconds
 Write-Host -Fore Cyan  "
 *** Collection Completed in $Minutes minutes and $Seconds seconds. ***
 "
+
+$summary = @{
+    Hostname = $name
+    OS = $OS
+    Architecture = $arch
+    Profile = $profileName
+    Timestamp = $tstamp
+    Duration = "$Minutes min $Seconds sec"
+}
+$summary | ConvertTo-Json | Set-Content "$outputpath\collection-summary.json"
+
+Add-Content -Path "$wd\CyberPipe-runs.csv" -Value "$((Get-Date).ToString()),$env:COMPUTERNAME,$profileName,$Minutes`:$Seconds"
+
+if (-not (Test-Path $outputpath)) {
+    Write-Host -Fore Red "Collection failed."
+    exit 1
+}
+Write-Host -Fore Green "Collection succeeded."
+exit 0
