@@ -114,4 +114,4 @@ If you previously used CyberPipe with KAPE (prior to v5), the older workflow rem
 
 > Note: CyberPipe was previously known as CSIRT-Collect. The project was renamed starting with version 4.0.
 
-For more information visit [BakerStreetForensics.com]([https://bakerstreetforensics.com/2024/02/14/cyberpipe-version-5-0/](https://bakerstreetforensics.com/?s=cyberpipe))
+For more information visit [BakerStreetForensics.com](https://bakerstreetforensics.com/2024/02/14/cyberpipe-version-5-0/](https://bakerstreetforensics.com/?s=cyberpipe)
