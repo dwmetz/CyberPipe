@@ -32,8 +32,6 @@ Collection profiles include:
 - RAM Only
 - RAM + Pagefile
 - Triage (Volatile + RAM + Pagefile + System Artifacts)
-- Custom: pass flags to MAGNET Response CLI
-
 
 <h5>
    Prerequisites:
