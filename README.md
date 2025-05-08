@@ -39,7 +39,6 @@ Collection profiles include:
 
 >- [MAGNET Response](https://www.magnetforensics.com/resources/magnet-response/)
 >- [MAGNET Encrypted Disk Detector](https://www.magnetforensics.com/resources/encrypted-disk-detector/) 
->- [MAGNET RAM Capture](https://www.magnetforensics.com/resources/magnet-ram-capture/)
 
 
 <h5>
