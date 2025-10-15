@@ -14,11 +14,7 @@ This script performs the following actions:  
 - Saves all artifacts, logs, and outputs to USB or designated network path  
 
 .SYNOPSIS
-<<<<<<< HEAD
 CyberPipe v5.2
-=======
-CyberPipe v5.1
->>>>>>> 21900646a5fea34e4a8502be5f2b73488a0e666b
 
 **Prerequisites (must be present in the \Tools directory):**  
 - [MAGNET Response](https://magnetforensics.com) — `MagnetRESPONSE.exe`
@@ -668,10 +664,7 @@ if ($CollectionProfile -match "RAM|^$") {
 $collectionSizeGB = [math]::Round(($collectedFiles | Measure-Object -Property Length -Sum).Sum / 1GB, 2)
 
 Write-Host -Fore Green "Collection succeeded."
-<<<<<<< HEAD
 Write-Host -Fore Green "  Profile: $profileName"
 Write-Host -Fore Green "  Files: $($collectedFiles.Count) | Size: $collectionSizeGB GB"
 Write-Host ""
-=======
->>>>>>> 21900646a5fea34e4a8502be5f2b73488a0e666b
 exit 0
