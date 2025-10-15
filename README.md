@@ -15,7 +15,7 @@
 <p>
  </div>
 <div align="center">
-  <img style="padding:0;vertical-align:bottom;" height="372" width="440" src="images/screenshot.png"/>
+  <img style="padding:0;vertical-align:bottom;" height="372" width="440" src="images/Screenshot.png"/>
   <div align="left">
   <h5>
    Functions:
