@@ -1,6 +1,6 @@
 <#
 .NOTES
-CyberPipe5.ps1  
+CyberPipe.ps1  
 https://github.com/dwmetz/CyberPipe  
 Formerly known as "CSIRT-Collect"  
 Author: @dwmetz  
