@@ -615,20 +615,75 @@ if ($Compress) {
     Write-Host -Fore Cyan "Compressing collection..."
     $zipPath = "$wd\Collections\$collection.zip"
 
-    try {
-        Compress-Archive -Path $outputpath -DestinationPath $zipPath -CompressionLevel Optimal -Force
-        $zipSize = [math]::Round((Get-Item $zipPath).Length / 1GB, 2)
-        Write-Host -Fore Green "Collection compressed: $collection.zip ($zipSize GB)"
 
-        # Optionally remove uncompressed folder
-        # Uncomment the following lines to auto-delete after compression:
-        # Remove-Item -Path $outputpath -Recurse -Force
-        # Write-Host -Fore Cyan "Uncompressed collection removed."
-    }
-    catch {
-        Write-Host -Fore Yellow "Warning: Compression failed - $($_.Exception.Message)"
-        Write-Host -Fore Yellow "Uncompressed collection remains at: $outputpath"
-    }
+    # Check collection size first to determine compression strategy
+    $collectionSize = (Get-ChildItem -Path $outputpath -Recurse -File | Measure-Object -Property Length -Sum).Sum
+    $collectionSizeGB = [math]::Round($collectionSize / 1GB, 2)
+
+    Write-Host "  Collection size: $collectionSizeGB GB"
+
+    # Try 7-Zip first if available (handles large files, better compression)
+    $sevenZipPaths = @(
+        "$wd\Tools\7z.exe",
+        "C:\Program Files\7-Zip\7z.exe",
+        "C:\Program Files (x86)\7-Zip\7z.exe"
+    )
+
+    $sevenZipExe = $sevenZipPaths | Where-Object { Test-Path $_ } | Select-Object -First 1
+
+    if ($sevenZipExe) {
+        Write-Host -Fore Cyan "  Using 7-Zip for compression (supports large files)..."
+        try {
+            # Use 7-Zip with ZIP64 format (no size limit)
+            # -tzip = ZIP format, -mx5 = medium compression (balance speed/ratio)
+            $7zProcess = Start-Process -FilePath $sevenZipExe -ArgumentList "a -tzip -mx5 `"$zipPath`" `"$outputpath\*`"" -Wait -PassThru -NoNewWindow
+
+            if ($7zProcess.ExitCode -eq 0 -and (Test-Path $zipPath)) {
+                $zipSize = [math]::Round((Get-Item $zipPath).Length / 1GB, 2)
+                Write-Host -Fore Green "Collection compressed: $collection.zip ($zipSize GB)"
+
+                # Optionally remove uncompressed folder
+                # Uncomment the following lines to auto-delete after compression:
+                # Remove-Item -Path $outputpath -Recurse -Force
+                # Write-Host -Fore Cyan "Uncompressed collection removed."
+            } else {
+                throw "7-Zip exited with code $($7zProcess.ExitCode)"
+            }
+        }
+        catch {
+            Write-Host -Fore Red "7-Zip compression failed: $($_.Exception.Message)"
+            Write-Host -Fore Yellow "Uncompressed collection remains at: $outputpath"
+        }
+    }
+    # Fall back to Compress-Archive only for small collections (< 1.5GB)
+    elseif ($collectionSizeGB -lt 1.5) {
+        Write-Host -Fore Cyan "  Using built-in compression (small collection)..."
+        try {
+            Compress-Archive -Path $outputpath -DestinationPath $zipPath -CompressionLevel Optimal -Force
+            $zipSize = [math]::Round((Get-Item $zipPath).Length / 1GB, 2)
+            Write-Host -Fore Green "Collection compressed: $collection.zip ($zipSize GB)"
+
+            # Optionally remove uncompressed folder
+            # Uncomment the following lines to auto-delete after compression:
+            # Remove-Item -Path $outputpath -Recurse -Force
+            # Write-Host -Fore Cyan "Uncompressed collection removed."
+        }
+        catch {
+            Write-Host -Fore Red "Compression failed: $($_.Exception.Message)"
+            Write-Host -Fore Yellow "Uncompressed collection remains at: $outputpath"
+        }
+    }
+    else {
+        Write-Host -Fore Yellow "Collection is too large ($collectionSizeGB GB) for built-in compression."
+        Write-Host -Fore Yellow "PowerShell's Compress-Archive cannot create archives > 2GB."
+        Write-Host -Fore Yellow ""
+        Write-Host -Fore Yellow "To compress large collections, install 7-Zip:"
+        Write-Host -Fore Yellow "  1. Download from https://www.7-zip.org/"
+        Write-Host -Fore Yellow "  2. Install to default location, OR"
+        Write-Host -Fore Yellow "  3. Copy 7z.exe to $wd\Tools\"
+        Write-Host -Fore Yellow ""
+        Write-Host -Fore Yellow "Uncompressed collection remains at: $outputpath"
+    }
 }
 
 # Validate collection actually succeeded by checking for artifacts
