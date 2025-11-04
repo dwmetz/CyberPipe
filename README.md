@@ -16,7 +16,7 @@
  </div>
 
 <div align="center">
-  <img style="padding:0;vertical-align:bottom;" height="575" width="872" src="images/Screenshot.png"/>
+  <img style="padding:0;vertical-align:bottom;" height="575" width="872" src="images/CyberPipe_screenshot.png"/>
 
   <div align="left">
   <h4>
