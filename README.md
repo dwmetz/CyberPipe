@@ -1,9 +1,9 @@
 <div align="center">
- <img style="padding:0;vertical-align:bottom;" height="158" width="311" src="images/BSF.png"/>
- <p>
-  <h2>
-    CyberPipe v5.2
-  </h2>
+  <img style="padding:0;vertical-align:bottom;" height="283" width="441" src="images/CyberPipe.png"/>
+  
+  <h1>
+    CyberPipe v5.3
+  </h1>
   <h6>
   (formerly CSIRT-Collect)
   </h6>
@@ -14,12 +14,14 @@
 <p>
 <p>
  </div>
+
 <div align="center">
-  <img style="padding:0;vertical-align:bottom;" height="372" width="440" src="images/Screenshot.png"/>
+  <img style="padding:0;vertical-align:bottom;" height="575" width="872" src="images/Screenshot.png"/>
+
   <div align="left">
-  <h5>
+  <h4>
    Functions:
-  </h5>
+  </h4>
 
 - :ram: Capture a memory image with MAGNET DumpIt (supports x86, x64, and ARM64) or MAGNET RAM Capture for legacy systems.
 - :computer: Collect triage data using MAGNET Response CLI, with selectable profiles or custom options.
@@ -37,9 +39,9 @@ Collection profiles include:
 - **RAMSystem** - RAM + Critical System Files
 - **Default (Full Triage)** - RAM + Pagefile + Volatile + System Artifacts
 
-<h5>
+<h4>
    Prerequisites:
-</h5>
+</h4>
 
 >- [MAGNET Response](https://www.magnetforensics.com/resources/magnet-response/)
 >- [MAGNET Encrypted Disk Detector](https://www.magnetforensics.com/resources/encrypted-disk-detector/) 
@@ -56,34 +58,33 @@ CyberPipe supports saving output directly to a network share using the `-Net` pa
 ```
 
 
+<h4>
+New in 5.3:
+</h4>
+
 <h5>
-New in 5.2:
+Critical PS 5.1 Exit Code Fix
 </h5>
 
-**Intelligent Collection**
-- Dual disk space validation (target + system drives) with profile-aware requirements
-- Pre-collection volatile snapshot (uptime, users, connections, processes)
-- Virtual environment detection (VMware, Hyper-V, VirtualBox, etc.)
-- Real-time progress indicator with accurate size tracking
-
-**Enhanced Capabilities**
-- QuickTriage profile for rapid collections
-- BitLocker key recovery from ALL volumes (not just C:)
-- Comprehensive single-file reporting (CyberPipe-Report.txt)
-- SHA256 integrity hashing for chain of custody
-- Optional compression with `-Compress` flag
-- Network collection mode via `-Net` parameter (no manual editing required)
-
-**Improved Reliability**
-- Profile-aware disk space checks prevent silent failures
-- MAGNET Response exit code validation
-- Post-collection artifact verification
-- Better error handling and messaging
-
+- **Fixed**: False failures in Windows PowerShell 5.1 after successful Magnet Response collection
+- **Root cause**: PS 5.1 bug where `$process.ExitCode` not reliably populated after `WaitForExit()`
+- **Solution**: Implemented dual validation:
+  - Process exit code check with object refresh
+  - File collection verification (more reliable success indicator)
+  - Smart error handling: continues if files collected successfully despite non-zero exit code
 
 <h5>
+Improved Reliability
+</h5>
+
+- Enhanced validation logic checks for actual collected artifacts vs. relying solely on exit codes
+- Graceful handling of PowerShell version-specific quirks
+- Better error messages distinguish between genuine failures and PS 5.1 reporting issues
+
+
+<h2>
 Usage Examples:
-</h5>
+</h2>
 
 - **Run full triage (default collection profile) to local USB drive:** (RAM, Pagefile, Volatile, System Files)
   ```powershell
