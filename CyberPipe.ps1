@@ -14,7 +14,7 @@ This script performs the following actions:
 - Saves all artifacts, logs, and outputs to USB or designated network path 
 
 .SYNOPSIS
-CyberPipe v5.2
+CyberPipe v5.3
 
 **Prerequisites (must be present in the \Tools directory):** 
 - [MAGNET Response](https://magnetforensics.com) — `MagnetRESPONSE.exe`
